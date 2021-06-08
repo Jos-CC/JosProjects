@@ -1,0 +1,140 @@
+using System;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
+
+class Program
+{
+
+
+
+
+    static void Main()
+    {
+
+        string gameTitle = @"                          
+   ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄      
+▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌     ▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌     
+▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀▀▀      ▐░▌░▌   ▐░▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌     
+▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌               ▐░▌▐░▌ ▐░▌▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌     
+▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌   ▐░▌▐░▌ ▄▄▄▄▄▄▄▄      ▐░▌ ▐░▐░▌ ▐░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌   ▐░▌     
+▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░▌▐░░░░░░░░▌     ▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌     
+▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▐░▌ ▐░▌▐░▌ ▀▀▀▀▀▀█░▌     ▐░▌   ▀   ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▐░▌ ▐░▌     
+▐░▌       ▐░▌▐░▌       ▐░▌▐░▌    ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌    ▐░▌▐░▌     
+▐░▌       ▐░▌▐░▌       ▐░▌▐░▌     ▐░▐░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌     ▐░▐░▌     
+▐░▌       ▐░▌▐░▌       ▐░▌▐░▌      ▐░░▌▐░░░░░░░░░░░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌      ▐░░▌     
+ ▀         ▀  ▀         ▀  ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀         ▀  ▀         ▀  ▀        ▀▀    
+                     "; // ASCII text, huge text, didn't want to flood the thread with it 
+        string[] counting = { @"      
+ _____ 
+|___ / 
+  |_ \ 
+ ___) |
+|____/ 
+       ", @" ____  
+|___ \ 
+  __) |
+ / __/ 
+|_____|
+       ", @" _ 
+/ |
+| |
+| |
+|_|
+   ", @"   ___           _    
+  / _ )___ ___ _(_)__ 
+ / _  / -_) _ `/ / _ \
+/____/\__/\_, /_/_//_/
+         /___/        " }; // ASCII text, huge text same as above ^^
+        Console.CursorVisible = false;
+
+
+
+        for (int i = 0; i < counting.Length; i++)
+        {
+            Console.WriteLine(gameTitle); 
+            Thread.Sleep(1000);   
+            Console.WriteLine(counting[i]); // The text here counts, but it does not look very smooth its like blinking and feels choppy would love to fix that
+            Console.Clear();
+        }
+        string[] wordList = { "hello", "computer", "facebook", "csharp", "car", "mathematics" };
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.UTF8;
+
+
+        Console.WriteLine();
+        Random randWord = new Random();
+        int end = randWord.Next(wordList.Length);
+        string Starword = wordList[end];
+        Console.WriteLine(@"Guess the word! ");
+        string hint = Starword[0] + Starword[1].ToString();
+
+        char[] guess = new char[Starword.Length];
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Psst! Here is your hint!");
+        Console.WriteLine(hint);
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine();
+        char guessword = ' ';
+        string total = "";
+        bool gameOver = false;
+        while (gameOver != true)
+        {
+
+
+            for (int c = 0; c < Starword.Length; c++)
+            {
+                guess[c] = '#';
+            }
+
+            for (int j = 0; j <= Starword.Length; ++j)
+            {
+                if (j == Starword.Length)
+                {
+                    break;
+                }
+                Console.ForegroundColor = ConsoleColor.Gray;
+                try
+                {
+                    guess[j] = char.Parse(Console.ReadLine());
+                    guessword = guess[j];
+                    total += guessword;
+                    Console.WriteLine(guess);  // Here it keeps printing them in a newline, how do I use Console.Clear() (perhaps) to make it all in one line?
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("You can only insert one character!: ");  // this here runs an error code if you throw in more than one char how do I do the same in which it doesnt print a new line everytime?
+                    j = j - 1;
+                }
+            }
+            if (Starword==total)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(@" 
+| || || |                             | |
+| \| |/ ___  _   _    __   __  _  _  _| |
+ \_   _/ _ \| | | |  / / _ \ \| || |/ |_|
+   | |( (_) | |_| | | |_/ \_| | || / / _ 
+   |_| \___/ \___/   \___^___/ \_|__/ (_)");
+                gameOver = true;
+            }
+            else
+            {
+                Console.WriteLine(@" 
+|  | |  |       |  | |  | |   |   |       |       |       |
+|  |_|  |   _   |  | |  | |   |   |   _   |  _____|    ___|
+|       |  | |  |  |_|  | |   |   |  | |  | |_____|   |___ 
+|_     _|  |_|  |       | |   |___|  |_|  |_____  |    ___|
+  |   | |       |       | |       |       |_____| |   |___ 
+  |___| |_______|_______| |_______|_______|_______|_______|");
+                Console.WriteLine("\n \n");
+
+                gameOver = true;
+            }
+            
+        }
+    }
+}
